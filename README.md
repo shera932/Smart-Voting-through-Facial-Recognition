@@ -100,7 +100,7 @@ We would like to thank the developers and contributors of the libraries and tool
 
 ## 📞 Contact
 
-For any inquiries, please contact us at singhpushpendra9326@gmial.com
+For any inquiries, please contact us at singhpushpendra9326@gmail.com
 
 ---
 
