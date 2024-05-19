@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, 0.7);
+            background-image: url("/static/voting_page.png");
+            background-size: cover;
+            background-position: center top;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+             /* More opaque black background */
+        }
+        header {
+           background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em; /* Adjust font size as needed */
+            font-family: Proxima Nova;
+            margin: 0; /* Remove margin */
+            color: white; /* Set text color to white */
+        }
+        #candidates {
+            position: absolute;
+            top: 50%;
+            left: 18%;
+            color: white;
+            font-family:Avenir;
+            transform: translate(-50%, -50%);
+            text-align: center; /* Align text to the center */
+        }
+        .button {
+                display: block;
+                width: 100%;
+                padding: 15px 20px;
+                margin-bottom: 20px;
+                border: 2px solid black; /* Add a black border */
+                border-radius: 20px;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                font-size: 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 0));
+            }
+
+            .button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+
+        .party1 {
+            background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 0)); /* Gradient from red to yellow */
+        }
+        .party2 {
+            background: linear-gradient(to right, rgb(0, 128, 0), rgb(0, 255, 255)); /* Gradient from green to cyan */
+        }
+         .party3 {
+            background: linear-gradient(to right, rgb(0, 0, 255), rgb(173, 216, 230)); /* Gradient from blue to light blue */
+        }
+        .nota {
+            background: linear-gradient(to right, rgb(0, 0, 0), rgb(128, 128, 128)); /* Gradient from black to grey */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><strong>Welcome to the Voting Page</strong></h1>
+    </header>
+
+    <div id="candidates">
+        <h2 style="margin-bottom: 20px;"><strong>Choose Your Candidate:</strong></h2>
+        <button class="button party1" onclick="confirmVote('Party 1')">Vote for Party 1</button>
+        <button class="button party2" onclick="confirmVote('Party 2')">Vote for Party 2</button>
+        <button class="button party3" onclick="confirmVote('Party 3')">Vote for Party 3</button>
+        <button class="button nota" onclick="confirmVote('NOTA')">Vote NOTA</button>
+    </div>
+
+    <script>
+        function vote(candidateId) {
+            var voterId = '{{ user_id }}';
+
+            fetch(`/voting_page/${voterId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'voter_id': voterId, 'candidate_id': candidateId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Check if the vote was successful
+                if (data.success) {
+                    // Redirect to confirmation_receipt page
+                    window.location.href = `/confirmation_receipt/${voterId}`;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function confirmVote(candidateId) {
+            var confirmMsg = `Are you sure you want to vote for ${candidateId}?`;
+
+            if (confirm(confirmMsg)) {
+                vote(candidateId);
+            } else {
+                alert('Vote cancelled.');
+            }
+        }
+    </script>
+</body>
+</html>

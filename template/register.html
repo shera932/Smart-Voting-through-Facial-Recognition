@@ -1,0 +1,146 @@
+<!-- templates/register.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+  <form id="registrationForm" method="post" action="/register" enctype="multipart/form-data">
+    <h1> Registration</h1>
+    <div class="input-container">
+        <input type="text" id="name" name="name" required placeholder="Full Name">
+    </div>
+    <div class="input-container">
+        <input type="number" id="age" name="age" required placeholder="Age">
+        <p id="ageError" style="color: red;"></p><!-- Error message for age validation -->
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="voter_id" name="voter_id" pattern="[a-zA-Z0-9]+" required placeholder="Voter ID">
+        <p id="voter_idError" style="color: red;"></p><!-- Error message for voter ID validation -->
+    </div>
+
+    <div class="input-container"> <!-- Changed class to "input-container" -->
+        <input type="password" id="password" name="password" required placeholder="Password">
+        <span class="field-icon toggle-password" onclick="togglePasswordVisibility()"><i id="eye-icon" class="fa fa-fw fa-eye"></i></span>
+    </div>
+    <p id="passwordError" style="color: red;"></p><!-- Error message for password validation -->
+
+    <!-- Face Capture Section -->
+    <h2>Face Capture</h2>
+    <video id="video" width="380" height="350" autoplay></video> <br>
+    <button type="button" onclick="capturePhoto()" name="CapturePhoto" class="CapturePhoto-button" >Capture Photo</button> <br>
+    <div id="captured-photo" ></div>
+    <input type="hidden" id="captured-photo-input" name="captured_photo" width="150" height="50">
+    <br>
+    <!-- End Face Capture Section -->
+
+    <button type="submit" name="register" class="register-button">Register</button>
+</form>
+
+
+    <script>
+        function capturePhoto() {
+            const video = document.getElementById('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+
+            // Capture the photo without mirroring
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const capturedPhotoInput = document.getElementById('captured-photo-input');
+            capturedPhotoInput.value = canvas.toDataURL('image/jpeg');
+
+            const nameInput = document.getElementById('name');
+            const capturedImage = new Image();
+
+            capturedImage.onload = function () {
+                    const capturedPhoto = document.getElementById('captured-photo');
+                    capturedPhoto.innerHTML = ''; // Clear previous content
+                    capturedImage.style.transform = 'scaleX(-1)'; // Disable mirroring
+                    capturedPhoto.appendChild(capturedImage);
+                };
+
+            capturedImage.src = capturedPhotoInput.value;
+            capturedImage.width = 150; // Set the desired width for the displayed image
+            capturedImage.height = 150; // Set the desired height for the displayed image
+
+            // Include the user's name in the captured photo's filename
+            const name = nameInput.value.replace(/\s+/g, ''); // Remove spaces from the name
+            capturedImage.alt = `${name}.jpg`;
+        }
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    const video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.style.transform = 'scaleX(-1)'; // No mirroring
+                })
+                .catch(function (err) {
+                    console.error('Error accessing camera:', err);
+                });
+
+
+        document.getElementById('age').addEventListener('input', function () {
+            const ageInput = document.getElementById('age');
+            const ageError = document.getElementById('ageError');
+            const age = parseInt(ageInput.value);
+
+            if (age < 18) {
+                ageError.textContent = 'Under 18 are not allowed.';
+            } else {
+                ageError.textContent = '';
+            }
+        });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.className = 'fa fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.className = 'fa fa-eye';
+            }
+        }
+
+        document.getElementById('password').addEventListener('input', function () {
+            const passwordInput = document.getElementById('password');
+            const passwordError = document.getElementById('passwordError');
+            const password = passwordInput.value;
+
+            if (password.length < 8) {
+                passwordError.textContent = 'Password must be at least 8 characters.';
+            } else {
+                passwordError.textContent = '';
+            }
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', function () {
+            const video = document.getElementById('video');
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+        });
+    </script>
+</body>
+</html>

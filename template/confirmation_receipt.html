@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Receipt</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+    <!-- Material Design Icons CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/materialdesignicons.min.css') }}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+    <style>
+        .voting-receipt {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: left;
+            width: 40%; /* Adjust the width as needed */
+            margin-left: 0%; /* Adjust the left margin as needed */
+        }
+
+        .voting-receipt h1 {
+            color: #000;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .voting-receipt p {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .voting-receipt strong {
+            font-weight: bold;
+        }
+
+        .user-profile {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            transition: transform 0.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        .user-profile.active {
+            transform: translateX(-20%);
+        }
+
+        .shrink {
+            width: 80%;
+        }
+
+        /* Updated styles for user profile content */
+
+        .user-profile-content {
+            position: absolute;
+            top: 1%;
+            left: 0;
+            width: 22%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+
+        .user-profile-image {
+            margin-top: -50px; /* Adjust this value to move the image upward */
+        }
+
+        .user-details {
+            margin-bottom: 20px;
+        }
+
+        .user-details p {
+            margin: 10px 0;
+        }
+
+        .logout-btn {
+            margin-top: 140px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 30px; /* Curved edges */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for smoother hover effect */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75); /* Add a subtle shadow */
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px); /* Add a slight upward movement on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top custom-nav sticky">
+        <div class="container">
+            <a class='navbar-brand logo' href='index_1.html'>
+                <h1 style="color: #fff; font-size: 1.8rem;"><strong>Smart Voting</strong></h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a href="{{ url_for('home', user_id=voter_id) }}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('confirmation_receipt', user_id=voter_id) }}" class="nav-link">Voting Receipt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('about') }}" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="userProfileLink">Voter: {{ voter_id }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="home-bg section h-100vh"  id="home">
+        <div class="bg-overlay"></div>
+        <div class="container z-index">
+            <div class="row justify-content-left">
+                <div class="col-lg-8">
+                    <div class="voting-receipt">
+                        <h1>Voting Receipt</h1>
+                        {% if voted_party %}
+                            <p><strong>Full Name:</strong> {{ user_name }}</p>
+                            <p><strong>Voter ID:</strong> {{ voter_id }}</p>
+                            <p><strong>Voted Party:</strong> {{ voted_party }}</p>
+                            <h4><p>Thank you for voting!</p></h4>
+                        {% endif %}
+                        <!-- Display the message here -->
+                        {% if message %}
+                            <p>{{ message }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- User Profile Section -->
+    <section class="user-profile" id="userProfile">
+        <div class="container">
+            <div class="user-profile-content">
+                <!-- Move the user profile image section upward -->
+                <div class="user-profile-image">
+                    <img src="{{ user_image_url }}" alt="User Image" class="rounded-circle" style="width: 90px; height: 90px;">
+                </div>
+
+                <!-- User details section -->
+                <div class="user-details">
+                    <p><strong>Name:</strong> {{ user_name }}</p>
+                    <p><strong>Age:</strong> {{ user_age }}</p>
+                    <p><strong>Voter ID:</strong> {{ voter_id }}</p>
+                </div>
+
+                <!-- Logout Button -->
+                <button class="logout-btn" onclick="confirmLogout()">Logout</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/typed.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $(".element").each(function() {
+                var $this = $(this);
+                $this.typed({
+                    strings: $this.attr('data-elements').split(','),
+                    typeSpeed: 100,
+                    backDelay: 3000
+                });
+            });
+
+            // Toggle User Profile section
+            $("#userProfileLink").click(function(e) {
+                e.preventDefault();
+                $("#userProfile").toggleClass("active");
+                // Apply the 'shrink' class to the navbar when the user profile is activated
+                $(".navbar").toggleClass("shrink");
+
+            });
+        });
+
+        // JavaScript for Logout Confirmation
+        function confirmLogout() {
+            var confirmation = confirm("Are you sure you want to logout?");
+            if (confirmation) {
+                // If user confirms, perform logout action
+                window.location.href = "/logout";
+            }
+        }
+    </script>
+</body>
+</html>

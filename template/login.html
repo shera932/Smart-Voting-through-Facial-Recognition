@@ -1,0 +1,80 @@
+<!-- templates/login.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Voting - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body >
+<!-- Your HTML content -->
+
+<!-- Flash message container -->
+<div id="flash-message" class="flash-message-container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash-message-banner" class="flash-message-banner">
+                {{ messages[0] }}
+                <!-- Add a close button or icon if desired -->
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Other HTML content -->
+
+<!-- Add this script to handle the flash message -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var flashMessageBanner = document.getElementById("flash-message-banner");
+
+        if (flashMessageBanner) {
+            // Automatically remove the flash message after 5 seconds (5000 milliseconds)
+            setTimeout(function() {
+                flashMessageBanner.style.display = "none";
+            }, 5000);  // Adjust the duration as needed
+        }
+    });
+    function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var eyeIcon = document.getElementById("eye-icon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.className = "fa fa-fw fa-eye-slash";
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.className = "fa fa-fw fa-eye";
+            }
+        }
+
+</script>
+
+
+  <form method="post" action="/login">
+    <h1>Login</h1>
+    <div class="input-container">
+        <input type="text" id="voter_id" name="voter_id" required placeholder="Voter ID">
+    </div>
+
+     <div class="input-container"> <!-- Changed class to "input-container" -->
+        <input type="password" id="password" name="password" required placeholder="Password">
+        <span class="field-icon toggle-password" onclick="togglePasswordVisibility()"><i id="eye-icon" class="fa fa-fw fa-eye"></i></span>
+    </div>
+    <p id="passwordError" style="color: red;"></p><!-- Error message for password validation -->
+
+    <button type="submit" name="login" class="login-button">Login</button>
+    <p class="message">Already logged in? <a href="/register">Register here</a>.</p>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</form>
+
+
+</body>
+</html>

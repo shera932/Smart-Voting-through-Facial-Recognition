@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Voting Through Facial Recognition Webapp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.3em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ol li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            color: #888;
+        }
+
+        ol li::before {
+            content: counter(step-counter);
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #aaa;
+        }
+
+        .contact-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0; /* Hide default font size */
+        }
+
+        .contact-links li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .contact-links a {
+            display: block;
+            width: 30px; /* Adjust icon size */
+            height: 30px; /* Adjust icon size */
+        }
+
+        .contact-links img {
+            width: 100%; /* Ensure the icon fills its container */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 50%; /* Round the icons */
+            transition: transform 0.3s ease; /* Add transition effect */
+        }
+
+        .contact-links img:hover {
+            transform: scale(1.2); /* Scale up on hover */
+        }
+
+        .image-container {
+            float: right;
+            margin-left: 20px;
+            border-radius: 70%;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container img {
+            width: 300px; /* Adjust the width of the image */
+            height: auto; /* Maintain aspect ratio */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Voting Through Facial Recognition</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2>Innovating the Electoral Process</h2>
+                <div class="image-container">
+                    <img src="static/about.png" alt="About Image" style="width: 100%; max-width: 450px;">
+                </div>
+                <p>In an era where technological advancements are revolutionizing every aspect of our lives, Smart Voting Through Facial Recognition stands at the forefront of modernizing the electoral process. This innovative solution leverages cutting-edge facial recognition technology to streamline and secure the voting experience, ensuring efficiency, accuracy, and integrity in every election.</p>
+
+            </section>
+
+            <section>
+                <h2>Revolutionizing Voter Registration</h2>
+                <p>Gone are the days of cumbersome paperwork and lengthy queues at registration centers. With Smart Voting Through Facial Recognition, registering to vote is as simple as a few clicks. Users are prompted to input essential information such as their full name, age, password, and voter ID. Additionally, a high-resolution photo is captured to create a unique biometric identifier, ensuring the highest level of security and accuracy.</p>
+            </section>
+
+            <section>
+                <h2>Seamless Authentication</h2>
+                <p>Once registered, users can effortlessly log in using their voter ID and password. The system verifies their identity using facial recognition technology, providing a seamless and secure authentication process. This eliminates the risk of fraudulent voting and ensures that only eligible voters can participate in elections.</p>
+            </section>
+
+            <section>
+                <h2>Empowering Voters</h2>
+                <p>Smart Voting Through Facial Recognition empowers voters by providing easy access to essential information and voting procedures. The user-friendly interface allows voters to navigate through various options such as viewing their profile information, accessing voting receipts, and exploring detailed candidate profiles. Additionally, users can stay informed about the latest election updates and announcements, fostering a more engaged and informed electorate.</p>
+            </section>
+
+          <section>
+                <h2>Face Recognition Model</h2>
+                <p>Facial recognition serves as the backbone of our Smart Voting Through Facial Recognition system, ensuring secure and reliable authentication of voters. Let's delve into how this technology functions:</p>
+
+                <ol>
+                    <li>Initialization and Setup: The facial recognition process begins by initializing the necessary components. Utilizing the OpenCV library, we capture video frames, detect faces, and display real-time results.</li>
+                    <li>Face Detection and Encoding: Upon receiving video frames, our system employs a face detection algorithm to locate faces. Detected faces undergo feature extraction and encoding into numerical representations.</li>
+                    <li>Comparison with Known Faces: Encoded facial features are compared with known faces stored in the system. This involves calculating the Euclidean distance to determine similarity.</li>
+                    <li>Recognition and Decision Making: Based on calculated distances, the system determines if a match exists. If within a predefined threshold, the face is recognized, and appropriate actions are taken.</li>
+                    <li>Visualization and User Interaction: Throughout the process, the system provides visual feedback by drawing bounding boxes around detected faces. This enhances user experience and ensures transparency.</li>
+                    <li>Conclusion and Cleanup: Upon completion or timeout, the system releases resources and closes OpenCV windows, ensuring proper cleanup.</li>
+                </ol>
+                <p>Facial recognition technology plays a crucial role in modernizing the voting experience, enhancing integrity, and ensuring accessibility in the electoral process.</p>
+            </section>
+
+            <section>
+                <h2>Ensuring Electoral Integrity</h2>
+                <p>Smart Voting Through Facial Recognition is committed to upholding the integrity and transparency of democratic elections. By implementing stringent security measures and advanced authentication mechanisms, the platform safeguards against fraudulent activities and ensures that every vote is counted accurately. This commitment to electoral integrity reinforces trust in the democratic process and strengthens the foundation of democracy.</p>
+            </section>
+
+            <section>
+                <h2>Embracing Innovation for Democracy</h2>
+                <p>In a rapidly evolving digital landscape, Smart Voting Through Facial Recognition represents the epitome of innovation in democracy. By harnessing the power of technology, this pioneering solution revolutionizes traditional voting methods, making the electoral process more accessible, inclusive, and secure for citizens worldwide. As we embrace the future of democracy, Smart Voting Through Facial Recognition remains steadfast in its mission to redefine the electoral experience for generations to come.</p>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>For inquiries and support, connect with us:</p>
+            <ul class="contact-links">
+                <li><a href="https://www.instagram.com/singh.pushpendra?igsh=cW1hMWJ1aDB4YW0y" target="_blank"><img src="/static/instagram.png" alt="Instagram"></a></li>
+                <li><a href="https://www.linkedin.com/in/pushpendra-singh-4a88bb276/" target="_blank"><img src="/static/linkedin.png" alt="LinkedIn"></a></li>
+                <li><a href="mailto:singhpushpendra9326@gmail.com"><img src="/static/email.png" alt="Email"></a></li>
+            </ul>
+        </footer>
+    </div>
+</body>
+</html>
